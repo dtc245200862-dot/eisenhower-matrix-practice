@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài Thực Hành: Dùng Ma Trận Eisenhower Sắp Xếp Nhiệm Vụ Học Tập</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2d3748;
+            background-color: #f7fafc;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 22px;
+            color: #2b6cb0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .header .meta {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid #3182ce;
+            padding-left: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* 4 Quadrants Eisenhower Grid */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+        .quadrant {
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid;
+        }
+        .quadrant h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .quadrant .badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .quadrant ul {
+            padding-left: 20px;
+            font-size: 13px;
+        }
+        .quadrant li {
+            margin-bottom: 6px;
+        }
+
+        /* Q1: Do First (Red) */
+        .q1 {
+            background-color: #fff5f5;
+            border-top-color: #e53e3e;
+        }
+        .q1 h3 { color: #c53030; }
+        .q1 .badge { background-color: #e53e3e; }
+
+        /* Q2: Schedule (Green) */
+        .q2 {
+            background-color: #f0fff4;
+            border-top-color: #38a169;
+        }
+        .q2 h3 { color: #276749; }
+        .q2 .badge { background-color: #38a169; }
+
+        /* Q3: Delegate (Yellow/Orange) */
+        .q3 {
+            background-color: #fffaf0;
+            border-top-color: #dd6b20;
+        }
+        .q3 h3 { color: #c05621; }
+        .q3 .badge { background-color: #dd6b20; }
+
+        /* Q4: Eliminate (Gray) */
+        .q4 {
+            background-color: #f7fafc;
+            border-top-color: #718096;
+        }
+        .q4 h3 { color: #4a5568; }
+        .q4 .badge { background-color: #718096; }
+
+        .callout {
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 13.5px;
+            margin-bottom: 15px;
+        }
+        .highlight {
+            font-weight: 600;
+            color: #2b6cb0;
+        }
+        .action-plan {
+            background-color: #f0fff4;
+            border-left: 4px solid #38a169;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 13.5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Báo Cáo Thực Hành: Ma Trận Eisenhower</h1>
+        <p style="font-weight: 600; color: #4a5568; margin-top: 4px;">Sắp Xếp & Tối Ưu Hóa Kế Hoạch Học Tập Hàng Ngày</p>
+        <p class="meta" style="margin-top: 6px;">
+            <strong>Học viên:</strong> Hồ Quang Huy &nbsp;|&nbsp; <strong>Mã sinh viên:</strong> DTC245200862 &nbsp;|&nbsp; <strong>Khóa học:</strong> CodeGym Bootcamp
+        </p>
+    </div>
+
+    <!-- 1. Danh sách công việc trong ngày -->
+    <div class="section-title">1. Nhật Ký 1 Ngày Học Tập Điển Hình (13 Đầu Việc)</div>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 15%;">Thời gian</th>
+                <th style="width: 45%;">Đầu việc đã thực hiện</th>
+                <th style="width: 20%;">Thời lượng ước tính</th>
+                <th style="width: 20%;">Phân loại Ô</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>06:30 - 07:00</td>
+                <td>Thức dậy, vệ sinh cá nhân, ăn sáng nạp năng lượng</td>
+                <td>30 phút</td>
+                <td>Sinh hoạt</td>
+            </tr>
+            <tr>
+                <td>07:00 - 08:30</td>
+                <td>Đọc tài liệu, xem trước bài giảng Java Spring Boot & chuẩn bị câu hỏi</td>
+                <td>90 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>08:30 - 10:30</td>
+                <td>Học và thực hành viết code theo dự án trên lớp CodeGym</td>
+                <td>120 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>10:30 - 11:15</td>
+                <td>Hoàn thiện và nộp bài tập nhóm gấp theo deadline trưa nay</td>
+                <td>45 phút</td>
+                <td><strong style="color: #e53e3e;">Ô 1 (Khẩn cấp - Q.Trọng)</strong></td>
+            </tr>
+            <tr>
+                <td>11:15 - 12:00</td>
+                <td>Fix lỗi bug kết nối cơ sở dữ liệu MySQL gấp để kịp demo cuối buổi</td>
+                <td>45 phút</td>
+                <td><strong style="color: #e53e3e;">Ô 1 (Khẩn cấp - Q.Trọng)</strong></td>
+            </tr>
+            <tr>
+                <td>12:00 - 13:30</td>
+                <td>Ăn trưa, lướt Facebook/TikTok xem video giải trí</td>
+                <td>90 phút</td>
+                <td><strong style="color: #718096;">Ô 4 (K.Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>13:30 - 15:30</td>
+                <td>Luyện giải thuật toán cấu trúc dữ liệu trên LeetCode & Bob CodeGym</td>
+                <td>120 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>15:30 - 16:30</td>
+                <td>Hỗ trợ bạn cùng phòng sửa lỗi cài đặt môi trường Docker / Tomcat</td>
+                <td>60 phút</td>
+                <td><strong style="color: #dd6b20;">Ô 3 (Khẩn cấp - K.Q.Trọng)</strong></td>
+            </tr>
+            <tr>
+                <td>16:30 - 17:30</td>
+                <td>Tập thể dục, chạy bộ duy trì thể lực và xả stress</td>
+                <td>60 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>17:30 - 19:30</td>
+                <td>Tắm rửa, ăn tối, lướt web xem YouTube Shorts và đọc tin tức linh tinh</td>
+                <td>120 phút</td>
+                <td><strong style="color: #718096;">Ô 4 (K.Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>19:30 - 21:30</td>
+                <td>Làm bài tập thực hành Web MVC / JDBC Transaction theo tiến độ tuần</td>
+                <td>120 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+            <tr>
+                <td>21:30 - 22:30</td>
+                <td>Kiểm tra email, trả lời các thông báo và tin nhắn phát sinh trong nhóm</td>
+                <td>60 phút</td>
+                <td><strong style="color: #dd6b20;">Ô 3 (Khẩn cấp - K.Q.Trọng)</strong></td>
+            </tr>
+            <tr>
+                <td>22:30 - 23:30</td>
+                <td>Viết nhật ký học tập, đánh giá tiến độ và lập To-Do List cho ngày mai</td>
+                <td>60 phút</td>
+                <td><strong>Ô 2 (Quan trọng - K.Khẩn)</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 2. Ma trận Eisenhower 4 ô -->
+    <div class="section-title">2. Phân Loại Chi Tiết Vào Ma Trận Eisenhower (2x2 Grid)</div>
+    <div class="matrix-grid">
+        <!-- Ô 1 -->
+        <div class="quadrant q1">
+            <h3>
+                <span>Ô 1: LÀM NGAY (DO FIRST)</span>
+                <span class="badge">Khẩn cấp & Quan trọng</span>
+            </h3>
+            <p style="font-size: 11.5px; color: #742a2a; margin-bottom: 8px;">Khủng hoảng, hạn chót cận kề, giải quyết ngay</p>
+            <ul>
+                <li><strong>Fix lỗi kết nối MySQL gấp:</strong> Để kịp demo sản phẩm cuối buổi học (45p).</li>
+                <li><strong>Hoàn thành nộp bài tập nhóm:</strong> Deadline trước 12:00 trưa (45p).</li>
+            </ul>
+            <p style="font-size: 12px; margin-top: 10px; font-weight: 600; color: #c53030;">Tổng thời gian: 90 phút (13%)</p>
+        </div>
+
+        <!-- Ô 2 -->
+        <div class="quadrant q2">
+            <h3>
+                <span>Ô 2: LÊN LỊCH LÀM (SCHEDULE)</span>
+                <span class="badge">Không khẩn cấp nhưng Quan trọng</span>
+            </h3>
+            <p style="font-size: 11.5px; color: #22543d; margin-bottom: 8px;">Trọng tâm phát triển dài hạn, phòng ngừa khủng hoảng</p>
+            <ul>
+                <li><strong>Đọc trước bài giảng Spring Boot:</strong> Chuẩn bị kiến thức (90p).</li>
+                <li><strong>Thực hành viết code dự án:</strong> Rèn luyện kỹ năng thực chiến (120p).</li>
+                <li><strong>Luyện thuật toán LeetCode:</strong> Xây dựng tư duy giải quyết vấn đề (120p).</li>
+                <li><strong>Làm bài tập tuần JDBC / Web:</strong> Đảm bảo tiến độ học (120p).</li>
+                <li><strong>Tập thể dục & Lập kế hoạch ngày mai:</strong> Sức khỏe & định hướng (120p).</li>
+            </ul>
+            <p style="font-size: 12px; margin-top: 10px; font-weight: 600; color: #276749;">Tổng thời gian: 570 phút (56%)</p>
+        </div>
+
+        <!-- Ô 3 -->
+        <div class="quadrant q3">
+            <h3>
+                <span>Ô 3: ỦY QUYỀN / GIẢM THIỂU (DELEGATE)</span>
+                <span class="badge">Khẩn cấp nhưng Không quan trọng</span>
+            </h3>
+            <p style="font-size: 11.5px; color: #7b341e; margin-bottom: 8px;">Việc gấp của người khác, gián đoạn, thông báo linh tinh</p>
+            <ul>
+                <li><strong>Sửa lỗi môi trường cho bạn cùng phòng:</strong> Bị nhờ vả bất ngờ làm gián đoạn việc tự học (60p).</li>
+                <li><strong>Kiểm tra thông báo & tin nhắn lặt vặt:</strong> Trả lời ngay các tin nhắn không phục vụ mục tiêu (60p).</li>
+            </ul>
+            <p style="font-size: 12px; margin-top: 10px; font-weight: 600; color: #c05621;">Tổng thời gian: 120 phút (17%)</p>
+        </div>
+
+        <!-- Ô 4 -->
+        <div class="quadrant q4">
+            <h3>
+                <span>Ô 4: LOẠI BỎ (ELIMINATE)</span>
+                <span class="badge">Không khẩn cấp & Không quan trọng</span>
+            </h3>
+            <p style="font-size: 11.5px; color: #2d3748; margin-bottom: 8px;">Thói quen lãng phí thời gian, xem nội dung vô thức</p>
+            <ul>
+                <li><strong>Lướt TikTok / Facebook sau bữa trưa:</strong> Xem video ngắn vô định (90p).</li>
+                <li><strong>Xem YouTube Shorts & lướt web buổi tối:</strong> Tiêu hao năng lượng nhận thức trước giờ học (120p).</li>
+            </ul>
+            <p style="font-size: 12px; margin-top: 10px; font-weight: 600; color: #4a5568;">Tổng thời gian: 210 phút (14%)</p>
+        </div>
+    </div>
+
+    <!-- 3. Bảng so sánh tỷ lệ thời gian -->
+    <div class="section-title">3. So Sánh Tỷ Lệ Thời Gian Thực Tế vs Tỷ Lệ Lý Tưởng</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Khu vực ma trận</th>
+                <th>Thời lượng thực tế</th>
+                <th>Tỷ lệ thực tế (%)</th>
+                <th>Tỷ lệ lý tưởng (%)</th>
+                <th>Đánh giá chênh lệch</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ô 1 (Khẩn cấp & Quan trọng)</strong></td>
+                <td>90 phút</td>
+                <td><strong>13%</strong></td>
+                <td><strong>15%</strong></td>
+                <td><span style="color: #38a169;">Rất tốt (-2%)</span>: Ít khi bị dồn việc đến sát hạn chót.</td>
+            </tr>
+            <tr>
+                <td><strong>Ô 2 (Quan trọng, Không khẩn)</strong></td>
+                <td>570 phút</td>
+                <td><strong>56%</strong></td>
+                <td><strong>70%</strong></td>
+                <td><span style="color: #dd6b20;">Chưa tối ưu (-14%)</span>: Cần nâng cao hơn để học sâu và bền vững.</td>
+            </tr>
+            <tr>
+                <td><strong>Ô 3 (Khẩn cấp, Không quan trọng)</strong></td>
+                <td>120 phút</td>
+                <td><strong>17%</strong></td>
+                <td><strong>10%</strong></td>
+                <td><span style="color: #e53e3e;">Cao hơn mức chuẩn (+7%)</span>: Dễ bị gián đoạn bởi các việc linh tinh.</td>
+            </tr>
+            <tr>
+                <td><strong>Ô 4 (Không khẩn, Không quan trọng)</strong></td>
+                <td>210 phút</td>
+                <td><strong>14%</strong></td>
+                <td><strong>5%</strong></td>
+                <td><span style="color: #e53e3e;">Quá cao (+9%)</span>: Gấp gần 3 lần mức chuẩn, lãng phí 3.5 giờ/ngày.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 4. Trả lời câu hỏi phản tư & Kế hoạch hành động -->
+    <div class="section-title">4. Câu Hỏi Phản Tư & Kế Hoạch Hành Động (Action Plan)</div>
+    
+    <div class="callout">
+        <strong>Câu hỏi 1: Có việc nào bạn nghĩ là "quan trọng" nhưng thực ra là Ô 3 không?</strong><br>
+        <em>Trả lời:</em> Có. Đó là việc <strong>"Giúp bạn cùng phòng sửa lỗi cài đặt môi trường Docker/Tomcat"</strong> (mất 60 phút) và <strong>"Liên tục kiểm tra thông báo/tin nhắn Zalo"</strong> (60 phút). Ban đầu tôi ngỡ rằng việc hỗ trợ bạn bè là "rất quan trọng" vì bạn đang nhờ gấp. Tuy nhiên, xét theo mục tiêu học tập cá nhân, đây thực chất là <strong>Ô 3 (Khẩn cấp với bạn nhưng Không quan trọng đối với kế hoạch của mình)</strong>. Việc này làm đứt gãy luồng tập trung (flow state) khi tôi đang luyện thuật toán.
+    </div>
+
+    <div class="callout">
+        <strong>Câu hỏi 2: Có việc nào bạn đã dành quá nhiều thời gian cho Ô 4 không?</strong><br>
+        <em>Trả lời:</em> Có. Tôi đã dành tới <strong>210 phút (3.5 tiếng, chiếm 14% quỹ thời gian)</strong> cho việc lướt TikTok, Facebook Reels và YouTube Shorts vô thức vào buổi trưa và đầu buổi tối. Đây là "cái bẫy" gây kiệt quệ năng lượng nhận thức, khiến buổi học tối bắt đầu trong trạng thái uể oải.
+    </div>
+
+    <div class="action-plan">
+        <strong>🎯 Kế hoạch hành động điều chỉnh trong tuần tới:</strong><br>
+        1. <strong>Kiểm soát Ô 4 (Cắt giảm từ 14% xuống dưới 5%):</strong> Giới hạn thời gian dùng mạng xã hội tối đa 30 phút/ngày bằng ứng dụng AppBlocker; để điện thoại ở chế độ "Không làm phiền" (Do Not Disturb) khi ngồi vào bàn học.<br>
+        2. <strong>Tối ưu hóa Ô 3 (Giảm từ 17% xuống 10%):</strong> Từ chối lịch sự hoặc hẹn giúp bạn vào khung giờ giải lao cố định (17:00 - 17:30) thay vì bỏ dở bài tập đang làm; gom việc kiểm tra email/tin nhắn vào 2 khung giờ cố định (12:00 và 21:00).<br>
+        3. <strong>Mở rộng Ô 2 (Tăng từ 56% lên trên 70%):</strong> Chuyển trọn vẹn 2 tiếng tiết kiệm được từ Ô 3 và Ô 4 vào việc đọc sách chuyên sâu, hoàn thành trước bài tập lớn và duy trì thói quen tập thể thao hàng ngày.
+    </div>
+</div>
+
+</body>
+</html>
